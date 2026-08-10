@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@import "./accessibility.css";
+
+@theme {
+    --color-primary: #056839;
+    --color-primary-container: #04532e;
+    --color-on-primary: #ffffff;
+    --color-on-primary-container: #a0f5b9;
+
+    --color-secondary: #FFE001;
+    --color-secondary-container: #fff082;
+    --color-on-secondary: #191c1b;
+    --color-on-secondary-container: #443d00;
+
+    --color-gold: #D4A62A;
+
+    --color-background: #f8faf8;
+    --color-on-background: #191c1b;
+    --color-surface: #f8faf8;
+    --color-surface-dim: #d8dad9;
+    --color-surface-bright: #f8faf8;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f2f4f2;
+    --color-surface-container: #eceeec;
+    --color-surface-container-high: #e6e9e7;
+    --color-surface-container-highest: #e1e3e1;
+    --color-on-surface: #191c1b;
+    --color-on-surface-variant: #3f4941;
+    --color-outline: #6f7a70;
+    --color-outline-variant: #bfc9be;
+    --color-inverse-surface: #2e3130;
+    --color-inverse-on-surface: #eff1ef;
+    --color-tertiary: #224a39;
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #3a624f;
+    --color-on-tertiary-container: #b0dcc4;
+    --color-error: #ba1a1a;
+    --color-on-error: #ffffff;
+    --color-error-container: #ffdad6;
+    --color-on-error-container: #93000a;
+
+    --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+    --text-headline-xl: 48px;
+    --text-headline-xl--line-height: 60px;
+    --text-headline-xl--letter-spacing: -0.02em;
+    --text-headline-xl--font-weight: 700;
+
+    --text-headline-lg: 32px;
+    --text-headline-lg--line-height: 40px;
+    --text-headline-lg--letter-spacing: -0.01em;
+    --text-headline-lg--font-weight: 700;
+
+    --text-headline-md: 24px;
+    --text-headline-md--line-height: 32px;
+    --text-headline-md--font-weight: 600;
+
+    --text-body-lg: 18px;
+    --text-body-lg--line-height: 28px;
+    --text-body-lg--letter-spacing: 0.01em;
+
+    --text-body-md: 16px;
+    --text-body-md--line-height: 24px;
+    --text-body-md--letter-spacing: 0.01em;
+
+    --text-label-md: 14px;
+    --text-label-md--line-height: 20px;
+    --text-label-md--letter-spacing: 0.05em;
+    --text-label-md--font-weight: 600;
+
+    --text-caption: 12px;
+    --text-caption--line-height: 16px;
+
+    --radius-xl: 1.5rem;
+}
+
+@layer base {
+    body {
+        @apply bg-background text-on-surface antialiased;
+        font-family: var(--font-sans);
+    }
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+}
