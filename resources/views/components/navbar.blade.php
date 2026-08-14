@@ -1,7 +1,9 @@
+@props(['solid' => true])
+
 <header
-    x-data="{ scrolled: false, mobileOpen: false }"
-    x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 80)"
-    :class="scrolled ? 'bg-white shadow-md text-on-surface' : 'bg-transparent text-white'"
+    x-data="{ scrolled: {{ $solid ? 'true' : 'false' }}, mobileOpen: false }"
+    x-init="@if (! $solid) window.addEventListener('scroll', () => scrolled = window.scrollY > 80) @endif"
+    :class="scrolled ? 'bg-white shadow-md text-on-surface' : 'bg-black/35 backdrop-blur-sm text-white'"
     class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
 >
     <div class="max-w-[1400px] mx-auto px-6 h-20 grid grid-cols-[auto_1fr_auto] items-center gap-4">

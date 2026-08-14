@@ -88,6 +88,9 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+    .milestone-active .milestone-year { color: var(--color-primary); }
+    .milestone-active.milestone-item { opacity: 1 !important; transform: scale(1) !important; }
+    .milestone-active .milestone-dot { transform: scale(1.4); }
 }
 
 }

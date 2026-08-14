@@ -17,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        \Illuminate\Pagination\Paginator::defaultView('vendor.pagination.bb-pustaka');
+
         View::composer('components.footer', function ($view): void {
             $view->with([
                 'quickLinks' => FooterLink::group('quick_links')->get(),

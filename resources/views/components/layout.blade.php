@@ -2,6 +2,7 @@
     'title' => null,
     'description' => 'Balai Besar Perpustakaan dan Literasi Pertanian - Pusat dokumentasi dan literasi ilmu pertanian nasional.',
     'image' => null,
+    'solidNav' => true,
 ])
 
 <!DOCTYPE html>
@@ -43,7 +44,7 @@
         Lewati ke konten utama
     </a>
 
-    <x-navbar />
+    <x-navbar :solid="$solidNav" />
 
     <main id="main-content">
         {{ $slot }}

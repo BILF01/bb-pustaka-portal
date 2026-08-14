@@ -12,7 +12,7 @@
                 style="background-image: url('{{ $slide['image'] }}')"
                 aria-hidden="{{ $index === 0 ? 'false' : 'true' }}"
             >
-                <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.6) 100%)"></div>
+                <div class="absolute inset-0 bg-black/60"></div>
             </div>
         @endforeach
 

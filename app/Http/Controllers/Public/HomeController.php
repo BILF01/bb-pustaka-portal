@@ -29,10 +29,10 @@ class HomeController extends Controller
         ];
 
         $profile = [
-            'image' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1000&q=80',
-            'image_alt' => 'Interior gedung Balai Besar Perpustakaan dan Literasi Pertanian',
-            'founded_year' => '1817',
-            'founded_label' => 'Berdiri Sejak Masa Kolonial',
+            'image' => asset('images/gedung-bb-pustaka.jpeg'),
+            'image_alt' => 'Gedung Balai Besar Perpustakaan dan Literasi Pertanian',
+            'founded_year' => '1842',
+            'founded_label' => 'Awal Berdirinya PUSTAKA',
             'heading' => 'Sejarah & Visi Pustaka Pertanian',
             'description' => 'BB Pustaka (Balai Besar Perpustakaan dan Literasi Pertanian) merupakan lembaga yang bertransformasi dari Bibliotheca Bogoriensis yang didirikan pada tahun 1817. Kami berkomitmen untuk menjadi pusat rujukan literasi pertanian terdepan di Indonesia.',
             'vision' => 'Menjadi pusat literasi pertanian global yang handal dan mandiri.',

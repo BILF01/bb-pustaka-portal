@@ -1,4 +1,4 @@
-<x-layout title="Beranda">
+<x-layout title="Beranda" :solid-nav="false">
     <x-hero :slides="$slides" :stats="$stats" />
 
     <x-quick-access :links="$quickLinks" />
