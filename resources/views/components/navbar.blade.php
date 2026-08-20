@@ -68,7 +68,7 @@
                         <div class="bg-white/95 backdrop-blur-sm text-on-surface border border-outline-variant/20 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] p-1.5">
                             <a href="{{ route('about') }}" class="block px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Tentang') }}</a>
                             <a href="{{ route('collections.index') }}" class="block px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Koleksi dan Layanan') }}</a>
-                            <a href="{{ route('news.index') }}" class="block px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Berita & Artikel') }}</a> 
+                            <a href="{{ route('news.index') }}" class="block px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Berita & Artikel') }}</a>
                             <a href="{{ route('contact.index') }}" class="block px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Kontak') }}</a>
                         </div>
                     </div>
