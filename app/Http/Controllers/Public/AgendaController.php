@@ -12,11 +12,24 @@ use Illuminate\View\View;
 
 class AgendaController extends Controller
 {
-    public function byDate(Request $request): JsonResponse
+        public function byDate(Request $request): JsonResponse
     {
         $date = $request->query('date', now()->toDateString());
         $agendas = Agenda::onDate($date)->get(['title', 'description', 'location', 'starts_at', 'ends_at']);
-
         return response()->json($agendas);
+    }
+
+    public function datesInMonth(Request $request): JsonResponse
+    {
+        $year = (int) $request->query('year', now()->year);
+        $month = (int) $request->query('month', now()->month);
+
+        $dates = Agenda::inMonth($year, $month)
+            ->get(['starts_at'])
+            ->map(fn ($agenda) => $agenda->starts_at->toDateString())
+            ->unique()
+            ->values();
+
+        return response()->json($dates);
     }
 }

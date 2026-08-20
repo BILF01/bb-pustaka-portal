@@ -53,4 +53,9 @@ class Agenda extends Model
     {
         return $query->whereDate('starts_at', $date)->orderBy('starts_at');
     }
+
+    public function scopeInMonth(Builder $query, int $year, int $month): Builder
+    {
+        return $query->whereYear('starts_at', $year)->whereMonth('starts_at', $month);
+    }
 }

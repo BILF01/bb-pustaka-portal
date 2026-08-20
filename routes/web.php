@@ -5,7 +5,6 @@ use App\Http\Controllers\Public\AboutController;
 use App\Http\Controllers\Public\ChatController;
 use App\Http\Controllers\Public\CollectionController;
 use App\Http\Controllers\Public\ContactController;
-use App\Http\Controllers\Public\FaqController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\NewsController;
 use App\Http\Controllers\SitemapController;
@@ -21,11 +20,11 @@ Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/koleksi', [CollectionController::class, 'index'])->name('collections.index');
+Route::get('/koleksi/cari', [CollectionController::class, 'suggest'])->name('collections.suggest');
 Route::get('/koleksi/{collection:slug}', [CollectionController::class, 'show'])->name('collections.show');
 
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
-
 Route::get('/agenda/by-date', [\App\Http\Controllers\Public\AgendaController::class, 'byDate'])->name('agenda.by-date');
+Route::get('/agenda/dates-in-month', [\App\Http\Controllers\Public\AgendaController::class, 'datesInMonth'])->name('agenda.dates-in-month');
 
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./accessibility.css";
+@import "./profile-section.css";
 
 @theme {
     --color-primary: #056839;

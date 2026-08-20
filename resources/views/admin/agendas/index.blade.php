@@ -6,7 +6,7 @@
         </a>
     </div>
 
-    <<div class="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-x-auto">
+    <div class="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-x-auto">
         <table class="w-full text-sm min-w-[640px]">
             <thead class="bg-surface-container-low text-left">
                 <tr>

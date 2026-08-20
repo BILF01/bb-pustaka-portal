@@ -1,5 +1,5 @@
 <x-layouts.admin title="Ubah Agenda">
-    <form method="POST" action="{{ route('admin.agendas.update', $agenda) }}" class="bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm max-w-xl space-y-4">
+    <form method="POST" action="{{ route('admin.agendas.update', $agenda) }}" enctype="multipart/form-data" class="bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm max-w-xl space-y-4">
         @csrf
         @method('PUT')
 

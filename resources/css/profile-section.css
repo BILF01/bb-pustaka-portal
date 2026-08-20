@@ -1,0 +1,25 @@
+.profile-bottom-decoration { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.botanical { position: absolute; bottom: -8px; z-index: 2; }
+.botanical svg { width: 100%; height: 100%; overflow: visible; }
+.botanical-left { left: -18px; width: 270px; height: 255px; }
+.leaf-stem { fill: none; stroke: #56865f; stroke-width: 3; stroke-linecap: round; }
+.leaf-fill { filter: drop-shadow(0 6px 8px rgba(0, 70, 35, 0.08)); }
+.leaf-light { fill: #b9d7ad; }
+.leaf-mid { fill: #79a96f; }
+.leaf-dark { fill: #3f8053; }
+.leaf-vein { fill: none; stroke: rgba(255,255,255,.45); stroke-width: 1.5; stroke-linecap: round; }
+.botanical-right { right: -12px; width: 300px; height: 300px; opacity: .72; }
+.outline-stem, .outline-leaf, .outline-vein { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.outline-stem { stroke: rgba(214, 232, 214, .82); stroke-width: 2; }
+.outline-leaf { stroke: rgba(214, 232, 214, .78); stroke-width: 2; }
+.outline-vein { stroke: rgba(214, 232, 214, .55); stroke-width: 1.2; }
+@media (max-width: 1024px) {
+    .botanical-left { width: 210px; height: 200px; left: -30px; }
+    .botanical-right { width: 230px; height: 230px; right: -28px; }
+    .bottom-wave { width: 560px; height: 290px; }
+}
+@media (max-width: 640px) {
+    .botanical-left { width: 150px; height: 145px; left: -40px; opacity: .75; }
+    .botanical-right { width: 160px; height: 160px; right: -45px; opacity: .5; }
+    .bottom-wave { bottom: -150px; width: 430px; height: 220px; }
+}

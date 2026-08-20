@@ -29,8 +29,14 @@
                 <a href="{{ route('admin.agendas.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all {{ request()->routeIs('admin.agendas.*') ? 'bg-white/15 font-semibold' : '' }}">
                     <span class="material-symbols-outlined" aria-hidden="true">event</span> Agenda
                 </a>
+                <a href="{{ route('admin.hero-slides.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all {{ request()->routeIs('admin.hero-slides.*') ? 'bg-white/15 font-semibold' : '' }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">image</span> Hero Slider
+                </a>
                 <a href="{{ route('admin.feedback.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all {{ request()->routeIs('admin.feedback.*') ? 'bg-white/15 font-semibold' : '' }}">
                     <span class="material-symbols-outlined" aria-hidden="true">rate_review</span> Umpan Balik
+                </a>
+                <a href="{{ route('admin.contact-messages.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all {{ request()->routeIs('admin.contact-messages.*') ? 'bg-white/15 font-semibold' : '' }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">mail</span> Pesan Masuk
                 </a>
             </nav>
 

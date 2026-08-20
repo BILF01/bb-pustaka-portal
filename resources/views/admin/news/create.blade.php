@@ -1,5 +1,5 @@
 <x-layouts.admin title="Tambah Berita">
-    <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm max-w-2xl space-y-4">
+    <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm max-w-4xl space-y-4">
         @csrf
 
         <div>
@@ -27,7 +27,11 @@
 
         <div>
             <label for="body" class="text-sm font-semibold block mb-1">Isi Berita</label>
-            <textarea id="body" name="body" rows="10" required class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">{{ old('body') }}</textarea>
+            <textarea id="body" name="body" rows="18" required class="w-full p-4 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-sans leading-relaxed">{{ old('body') }}</textarea>
+            <div class="mt-2 p-3 rounded-lg bg-primary/5 border border-primary/10 text-xs text-on-surface-variant leading-relaxed">
+                <span class="font-bold text-primary">Format artikel:</span>
+                gunakan <code class="font-bold">## Subjudul</code> untuk membuat bagian artikel, <code class="font-bold">&gt; Kutipan</code> untuk highlight, dan <code class="font-bold">- Item</code> untuk daftar. Pisahkan setiap bagian dengan satu baris kosong.
+            </div>
             @error('body') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 

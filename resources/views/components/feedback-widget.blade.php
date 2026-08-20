@@ -1,7 +1,22 @@
 <div x-data="{ open: false, sending: false, sent: false, level: 0, foundInfo: null, message: '', desired: '' }">
-    <button type="button" @click="open = true" class="mt-4 w-full py-3 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all">
-        <span class="material-symbols-outlined text-base" aria-hidden="true">rate_review</span>
-        {{ t('Berikan Umpan Balik untuk Portal Ini') }}
+    <button type="button" @click="open = true" class="group w-full p-5 bg-white/90 hover:bg-white backdrop-blur-sm border border-outline-variant/30 rounded-2xl text-left shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined" aria-hidden="true">forum</span>
+            </div>
+
+            <div class="flex-1 min-w-0">
+                <span class="block font-bold text-primary">{{ t('Beri Umpan Balik') }}</span>
+                <span class="block mt-1 text-sm leading-relaxed text-on-surface-variant">
+                    {{ __('Pendapat Anda sangat berarti untuk meningkatkan layanan kami.') }}
+                </span>
+
+                <span class="inline-flex items-center gap-1 mt-4 text-sm font-bold text-primary">
+                    {{ __('Sampaikan Masukan') }}
+                    <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+                </span>
+            </div>
+        </div>
     </button>
 
     <div x-show="open" x-cloak style="display:none" x-transition class="fixed inset-0 z-[110] bg-black/50 flex items-center justify-center p-4" @keydown.escape.window="open = false">

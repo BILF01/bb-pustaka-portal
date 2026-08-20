@@ -2,7 +2,7 @@
 
     {{-- ===================== HERO (Pinned) ===================== --}}
     <div class="relative">
-        <section class="sticky top-0 z-0 h-screen flex items-center pt-20 pb-16 overflow-hidden bg-primary">
+        <section class="sticky top-0 z-0 h-screen flex items-center pt-28 pb-16 overflow-hidden bg-primary">
             <div class="absolute inset-y-0 right-0 w-full lg:w-[78%]">
                 <img
                     src="{{ asset('images/gedung-bb-pustaka.jpeg') }}"
