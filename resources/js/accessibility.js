@@ -26,7 +26,7 @@ const defaultState = {
 
 const letterSpacingSteps = ['normal', '0.05em', '0.1em', '0.15em'];
 const lineHeightSteps = ['inherit', '1.6', '1.8', '2.1'];
-const READABLE_SELECTOR = 'p, h1, h2, h3, h4, h5, h6, li, a, button, span, td, th, label, blockquote, figcaption, summary';
+const READABLE_SELECTOR = 'p, h1, h2, h3, h4, h5, h6, li, a, button, td, th, label, blockquote, figcaption, summary';
 
 export function registerAccessibilityStore(Alpine) {
     Alpine.store('a11y', {
@@ -35,11 +35,12 @@ export function registerAccessibilityStore(Alpine) {
         _hoverTimeout: null,
 
         init() {
+            const lang = document.documentElement.lang?.toLowerCase().startsWith('en') ? 'en' : 'id';
             try {
                 const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                Object.assign(this, defaultState, saved, { open: false, listening: false });
+                Object.assign(this, defaultState, saved, { open: false, listening: false, lang });
             } catch (e) {
-                Object.assign(this, defaultState);
+                Object.assign(this, defaultState, { lang });
             }
             this.apply();
             this._bindReadingHelpers();
@@ -99,8 +100,19 @@ export function registerAccessibilityStore(Alpine) {
 
         reset() {
             const wasOpen = this.open;
+            const lang = document.documentElement.lang?.toLowerCase().startsWith('en') ? 'en' : 'id';
+
             this.stopSpeaking();
-            Object.assign(this, defaultState, { open: wasOpen });
+            clearTimeout(this._hoverTimeout);
+
+            if (this._recognition) {
+                try {
+                    this._recognition.stop();
+                } catch (_) {}
+                this._recognition = null;
+            }
+
+            Object.assign(this, defaultState, { open: wasOpen, lang });
             this.apply();
             localStorage.removeItem(STORAGE_KEY);
         },
@@ -163,7 +175,7 @@ export function registerAccessibilityStore(Alpine) {
                 document.addEventListener('mouseover', (e) => {
                     if (!this.readOnInteract) return;
                     const el = e.target.closest(READABLE_SELECTOR);
-                    if (!el || el.closest('#a11y-panel')) return;
+                    if (!el || el.closest('#a11y-panel, #chat-window') || el.getAttribute('aria-hidden') === 'true') return;
 
                     clearTimeout(this._hoverTimeout);
                     this._hoverTimeout = setTimeout(() => this._speakElement(el), 350);
@@ -176,7 +188,7 @@ export function registerAccessibilityStore(Alpine) {
                 document.addEventListener('click', (e) => {
                     if (!this.readOnInteract) return;
                     const el = e.target.closest(READABLE_SELECTOR);
-                    if (!el || el.closest('#a11y-panel')) return;
+                    if (!el || el.closest('#a11y-panel, #chat-window') || el.getAttribute('aria-hidden') === 'true') return;
 
                     this._speakElement(el);
                 }, true);

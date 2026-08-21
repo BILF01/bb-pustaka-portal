@@ -30,13 +30,27 @@ class AuthController extends Controller
                 ->onlyInput('email');
         }
 
-        $request->session()->regenerate();
-
-        if (! Auth::user()->hasRole('admin')) {
+        if (! Auth::user()->is_active) {
             Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-            return back()->withErrors(['email' => 'Akun ini tidak memiliki akses admin.']);
+            return back()
+                ->withErrors(['email' => 'Akun petugas sedang dinonaktifkan.'])
+                ->onlyInput('email');
         }
+
+        if (! Auth::user()->can('dashboard.view')) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()
+                ->withErrors(['email' => 'Akun ini tidak memiliki akses ke panel petugas.'])
+                ->onlyInput('email');
+        }
+
+        $request->session()->regenerate();
 
         return redirect()->route('admin.dashboard');
     }

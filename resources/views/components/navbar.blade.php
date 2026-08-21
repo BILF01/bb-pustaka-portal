@@ -1,4 +1,4 @@
-@props(['solid' => true])
+﻿@props(['solid' => true])
 
 <header
     id="site-header"
@@ -48,11 +48,49 @@
 
         <div :class="scrolled ? 'bg-white shadow-md text-on-surface' : 'bg-black/45 backdrop-blur-md text-white'" class="transition-all duration-300">
             <div class="max-w-[1400px] mx-auto px-6 min-h-20 py-2 flex items-center gap-3 lg:gap-4 xl:gap-6">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 min-w-0 flex-1" aria-label="BB Pustaka - {{ __('Beranda') }}">
-                    <img src="{{ asset('images/logo-bbpustaka.png') }}" alt="Logo BB Pustaka" class="w-10 h-10 object-contain shrink-0">
-                    <span class="hidden sm:flex flex-col leading-tight min-w-[200px] lg:min-w-[220px] xl:min-w-[240px] max-w-[260px] lg:max-w-[300px] xl:max-w-[360px]">
-                    <span :class="scrolled ? 'text-on-surface-variant' : 'text-white/85'" class="text-[10px] font-semibold uppercase tracking-wide">{{ __('Kementerian Pertanian Republik Indonesia') }}</span>
-                    <span :class="scrolled ? 'text-primary' : 'text-white'" class="text-sm lg:text-base font-bold uppercase">{{ __('Balai Besar Perpustakaan dan Literasi Pertanian') }}</span>
+            <a
+                href="{{ route('home') }}"
+                class="flex items-center gap-2.5 min-w-0 flex-1"
+                aria-label="BB Pustaka - {{ __('Beranda') }}"
+            >
+                <img
+                    src="{{ asset('images/logo-bbpustaka.png') }}"
+                    alt="Logo BB Pustaka"
+                    class="w-10 h-10 object-contain shrink-0"
+                >
+
+                {{-- MOBILE --}}
+                <span class="sm:hidden min-w-0 max-w-[225px] flex flex-col leading-none">
+                    <span
+                        :class="scrolled ? 'text-on-surface-variant' : 'text-white/75'"
+                        class="block mb-1 text-[6.5px] font-semibold uppercase tracking-[.025em] whitespace-nowrap"
+                    >
+                        {{ __('Kementerian Pertanian Republik Indonesia') }}
+                    </span>
+
+                    <span
+                        :class="scrolled ? 'text-primary' : 'text-white'"
+                        class="block text-[9.5px] font-extrabold uppercase leading-[1.2] tracking-[-.015em]"
+                    >
+                        {{ __('Balai Besar Perpustakaan dan Literasi Pertanian') }}
+                    </span>
+                </span>
+
+                {{-- TABLET + DESKTOP --}}
+                <span class="hidden sm:flex flex-col leading-tight min-w-[200px] lg:min-w-[220px] xl:min-w-[240px] max-w-[260px] lg:max-w-[300px] xl:max-w-[360px]">
+                    <span
+                        :class="scrolled ? 'text-on-surface-variant' : 'text-white/85'"
+                        class="text-[10px] font-semibold uppercase tracking-wide"
+                    >
+                        {{ __('Kementerian Pertanian Republik Indonesia') }}
+                    </span>
+
+                    <span
+                        :class="scrolled ? 'text-primary' : 'text-white'"
+                        class="text-sm lg:text-base font-bold uppercase"
+                    >
+                        {{ __('Balai Besar Perpustakaan dan Literasi Pertanian') }}
+                    </span>
                 </span>
             </a>
 
@@ -94,8 +132,8 @@
                                     <span class="material-symbols-outlined text-sm transition-transform group-open:rotate-90" aria-hidden="true">chevron_right</span>
                                 </summary>
                                 <div class="bg-surface-container-low">
-                                    <a href="https://pustaka.bppsdmp.pertanian.go.id/layanan/jasa-permohonan-informasi/layanan-penyediaan-literatur-pertanian" target="_blank" rel="noopener noreferrer" class="block pl-8 pr-4 py-2 text-xs hover:text-primary">{{ __('LayananPenyediaan Literatur Pertanian') }}</a>
-                                    <a href="https://pustaka.bppsdmp.pertanian.go.id/layanan/jasa-permohonan-informasi/layanan-konsultasi-referensi-pertanian" target="_blank" rel="noopener noreferrer" class="block pl-8 pr-4 py-2 text-xs hover:text-primary">{{ __('LayananKonsultasi/Referensi Pertanian') }}</a>
+                                    <a href="https://pustaka.bppsdmp.pertanian.go.id/layanan/jasa-permohonan-informasi/layanan-penyediaan-literatur-pertanian" target="_blank" rel="noopener noreferrer" class="block pl-8 pr-4 py-2 text-xs hover:text-primary">{{ __('Layanan Penyediaan Literatur Pertanian') }}</a>
+                                    <a href="https://pustaka.bppsdmp.pertanian.go.id/layanan/jasa-permohonan-informasi/layanan-konsultasi-referensi-pertanian" target="_blank" rel="noopener noreferrer" class="block pl-8 pr-4 py-2 text-xs hover:text-primary">{{ __('Layanan Konsultasi/Referensi Pertanian') }}</a>
                                 </div>
                             </details>
 
@@ -168,7 +206,7 @@
                         <div class="bg-white/95 backdrop-blur-sm text-on-surface border border-outline-variant/20 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] p-1.5">
                             <a href="https://pustaka.bppsdmp.pertanian.go.id/zona-integritas/wbk" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">WBK <span class="material-symbols-outlined text-sm text-on-surface-variant" aria-hidden="true">arrow_outward</span></a>
                             <a href="https://pustaka.bppsdmp.pertanian.go.id/zona-integritas/pengaduan" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Pengaduan') }} <span class="material-symbols-outlined text-sm text-on-surface-variant" aria-hidden="true">arrow_outward</span></a>
-                            <a href="https://ppid.pertanian.go.id/index.php/portal" target="_blank" rel="noopener noreferrer" class="flexitems-center justify-between px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Permohonan Informasi Publik') }} <span class="material-symbols-outlined text-sm text-on-surface-variant" aria-hidden="true">arrow_outward</span></a>
+                            <a href="https://ppid.pertanian.go.id/index.php/portal" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 text-sm rounded-lg hover:bg-surface-container-low/70 hover:text-primary transition-colors duration-150">{{ __('Permohonan Informasi Publik') }} <span class="material-symbols-outlined text-sm text-on-surface-variant" aria-hidden="true">arrow_outward</span></a>
                         </div>
                     </div>
                 </div>
@@ -259,7 +297,11 @@
                     aria-controls="mobile-nav"
                     aria-label="{{ __('Buka menu navigasi') }}"
                 >
-                    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+                    <span
+                        class="material-symbols-outlined"
+                        x-text="mobileOpen ? 'close' : 'menu'"
+                        aria-hidden="true"
+                    >menu</span>
                 </button>
             </div>
         </div>
@@ -364,9 +406,9 @@
                 <span class="material-symbols-outlined text-base transition-transform group-open:rotate-180" aria-hidden="true">expand_more</span>
             </summary>
             <div class="pl-4 space-y-1 pb-2">
-                <a href="http://repository.pertanian.go.id/handle/123456789/3" target="_blank" rel="noopener noreferrer" class="blockpy-1.5 text-sm">JPP</a>
+                <a href="http://repository.pertanian.go.id/handle/123456789/3" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">JPP</a>
                 <a href="http://repository.pertanian.go.id/handle/123456789/22" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Buku</a>
-                <a href="http://repository.pertanian.go.id/handle/123456789/1" target="_blank" rel="noopener noreferrer" class="blockpy-1.5 text-sm">Jurnal</a>
+                <a href="http://repository.pertanian.go.id/handle/123456789/1" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Jurnal</a>
                 <a href="http://repository.pertanian.go.id/handle/123456789/5397" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Brosur</a>
                 <a href="https://pustaka.bppsdmp.pertanian.go.id/publikasi/warta" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Warta</a>
             </div>
@@ -392,8 +434,8 @@
             </summary>
             <div class="pl-4 space-y-1 pb-2">
                 <a href="https://pustaka.bppsdmp.pertanian.go.id/zona-integritas/wbk" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">WBK</a>
-                <a href="https://pustaka.bppsdmp.pertanian.go.id/zona-integritas/pengaduan" target="_blank" rel="noopener noreferrer"class="block py-1.5 text-sm">Pengaduan</a>
-                <a href="https://ppid.pertanian.go.id/index.php/portal" target="_blank" rel="noopener noreferrer" class="block py-1.5text-sm">Permohonan Informasi Publik</a>
+                <a href="https://pustaka.bppsdmp.pertanian.go.id/zona-integritas/pengaduan" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Pengaduan</a>
+                <a href="https://ppid.pertanian.go.id/index.php/portal" target="_blank" rel="noopener noreferrer" class="block py-1.5 text-sm">Permohonan Informasi Publik</a>
             </div>
         </details>
 

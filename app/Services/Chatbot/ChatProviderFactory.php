@@ -19,10 +19,11 @@ class ChatProviderFactory
 
         return match ($provider) {
             'ollama' => new OllamaProvider($settings['base_url'], $settings['model']),
-            'openai', 'openrouter', 'lmstudio', 'gemini', 'claude' => new OpenAiCompatibleProvider(
+            'openai', 'openrouter', 'lmstudio', 'gemini', 'claude', 'groq' => new OpenAiCompatibleProvider(
                 $settings['base_url'],
                 $settings['api_key'] ?? null,
                 $settings['model'],
+                $settings['options'] ?? [],
             ),
             default => throw new InvalidArgumentException("Provider chatbot [{$provider}] belum didukung."),
         };

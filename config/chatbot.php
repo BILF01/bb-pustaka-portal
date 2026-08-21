@@ -9,14 +9,15 @@ return [
     |--------------------------------------------------------------------------
     | Ganti nilai ini (atau set CHATBOT_PROVIDER di .env) untuk berpindah
     | penyedia AI tanpa mengubah kode sama sekali.
-    | Pilihan: openai, ollama, lmstudio, openrouter, gemini, claude
+    | Pilihan: openai, ollama, lmstudio, openrouter, gemini, claude, groq
     */
     'provider' => env('CHATBOT_PROVIDER', 'openai'),
 
-    'system_prompt' => 'Anda adalah asisten virtual BB Pustaka (Balai Besar Perpustakaan dan Literasi Pertanian). '
-        .'Jawab pertanyaan seputar layanan perpustakaan, koleksi pertanian, dan literasi pertanian dengan ramah, '
-        .'ringkas, dan dalam Bahasa Indonesia formal. Jika tidak tahu jawabannya, arahkan pengguna untuk menghubungi '
-        .'pustakawan melalui halaman Kontak.',
+    'system_prompt' => 'Anda adalah AI Pustaka, asisten virtual BB Pustaka (Balai Besar Perpustakaan dan Literasi Pertanian). '
+        .'Jawab pertanyaan seputar layanan perpustakaan, koleksi pertanian, dan literasi pertanian dalam Bahasa Indonesia formal, ramah, dan mudah dipahami. '
+        .'Utamakan jawaban langsung tanpa mengulang pertanyaan pengguna. Untuk pertanyaan umum, berikan jawaban ringkas sekitar 2-4 paragraf pendek dan maksimal sekitar 150 kata. '
+        .'Gunakan poin hanya jika memang membantu menjelaskan langkah atau daftar. Jika pengguna secara eksplisit meminta penjelasan rinci, jawaban boleh lebih panjang secukupnya. '
+        .'Jangan mengarang informasi yang tidak diketahui. Jika informasi spesifik BB Pustaka tidak tersedia, sampaikan dengan jelas dan arahkan pengguna ke halaman Kontak atau pustakawan.',
 
     'providers' => [
         'openai' => [
@@ -33,6 +34,17 @@ return [
         'lmstudio' => [
             'base_url' => env('LMSTUDIO_BASE_URL', 'http://localhost:1234/v1'),
             'model' => env('LMSTUDIO_MODEL', 'local-model'),
+        ],
+
+        'groq' => [
+            'base_url' => env('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'),
+            'api_key' => env('GROQ_API_KEY'),
+            'model' => env('GROQ_MODEL', 'qwen/qwen3.6-27b'),
+            'options' => [
+                'reasoning_effort' => 'none',
+                'temperature' => 0.7,
+                'max_completion_tokens' => 400,
+            ],
         ],
 
         'openrouter' => [

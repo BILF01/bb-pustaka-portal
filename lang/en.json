@@ -122,13 +122,10 @@
     "Sejarah": "History",
     "Tentang": "About",
     "Koleksi dan Layanan": "Collections and Services",
-    "Katalog Online": "Online Catalog",
     "Kepustakawanan": "Librarianship",
     "Visi dan Misi": "Vision and Mission",
     "Tugas Pokok dan Fungsi": "Duties and Functions",
-    "Koleksi dan Layanan": "Collections and Services",
     "Publikasi": "Publications",
-    "Kepustakawanan": "Librarianship",
     "Informasi Publik": "Public Information",
     "Survey IKM": "Community Satisfaction Survey",
     "Ikuti Kami": "Follow Us",
@@ -146,7 +143,6 @@
     "Mengirim...": "Sending…",
     "Kirim Masukan": "Send Feedback",
     "Terima kasih atas masukan Anda.": "Thanks for your feedback",
-
     "Jasa Informasi Terbaru": "Current Awareness Service",
     "Jasa Informasi Terseleksi": "Selective Dissemination of Information",
     "Abstrak dan Bibliografi": "Abstracts and Bibliography",
@@ -167,5 +163,6 @@
     "Petunjuk Teknis Bagi Pustakawan": "Technical Guidelines for Librarians",
     "WBK": "WBK (Corruption-Free Zone)",
     "Pengaduan": "Complaints",
-    "Permohonan Informasi Publik": "Public Information Request"
+    "Permohonan Informasi Publik": "Public Information Request",
+    "Beri Umpan Balik": "Give Feedback "
 }

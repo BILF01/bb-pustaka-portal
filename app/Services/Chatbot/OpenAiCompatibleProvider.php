@@ -13,6 +13,7 @@ class OpenAiCompatibleProvider implements ChatProviderInterface
         private readonly string $baseUrl,
         private readonly ?string $apiKey,
         private readonly string $model,
+        private readonly array $options = [],
     ) {
     }
 
@@ -27,6 +28,7 @@ class OpenAiCompatibleProvider implements ChatProviderInterface
         $response = $request->post('/chat/completions', [
             'model' => $this->model,
             'messages' => $messages,
+            ...$this->options,
         ]);
 
         if ($response->failed()) {

@@ -44,11 +44,36 @@ class HomeController extends Controller
             'overlay_title' => 'Pusat Literasi Pertanian',
             'overlay_description' => 'Mengelola pengetahuan, koleksi, dan informasi pertanian untuk mendukung kebutuhan masyarakat.',
             'founded_footer_label' => 'Sejak',
-            'features' => [
-                ['icon' => 'menu_book', 'title' => 'Pengembangan Koleksi', 'description' => 'Mengembangkan sumber informasi pertanian yang relevan.'],
-                ['icon' => 'support_agent', 'title' => 'Layanan Referensi', 'description' => 'Mendukung penelusuran dan kebutuhan informasi pertanian.'],
-                ['icon' => 'publish', 'title' => 'Publikasi Pertanian', 'description' => 'Menyebarluaskan informasi dan pengetahuan pertanian.'],
-                ['icon' => 'school', 'title' => 'Pembinaan Kepustakawanan', 'description' => 'Mendukung pengembangan layanan dan kompetensi perpustakaan.'],
+        ];
+
+        $informationSources = [
+            [
+                'icon' => 'database',
+                'title' => 'Repositori Pertanian',
+                'description' => 'Akses koleksi digital dan publikasi ilmiah lingkup Kementerian Pertanian.',
+                'url' => 'https://repository.pertanian.go.id',
+                'external' => true,
+            ],
+            [
+                'icon' => 'account_tree',
+                'title' => 'Katalog Induk Kementerian Pertanian',
+                'description' => 'Telusuri koleksi perpustakaan di lingkungan Kementerian Pertanian.',
+                'url' => 'https://kikp.pertanian.go.id',
+                'external' => true,
+            ],
+            [
+                'icon' => 'manage_search',
+                'title' => 'Katalog Online Pustaka',
+                'description' => 'Cari koleksi yang tersedia pada katalog perpustakaan BB Pustaka.',
+                'url' => 'https://kikp.pertanian.go.id/pustaka/opac/',
+                'external' => true,
+            ],
+            [
+                'icon' => 'auto_stories',
+                'title' => 'E-Publikasi Pertanian',
+                'description' => 'Jelajahi jurnal dan berbagai publikasi digital lingkup Kementerian Pertanian.',
+                'url' => 'https://epublikasi.pertanian.go.id/berkala/index',
+                'external' => true,
             ],
         ];
 
@@ -61,68 +86,68 @@ class HomeController extends Controller
         $featuredCollections = Collection::featured()->take(4)->get();
 
         $quickLinks = [
-    [
-        'label' => 'Koleksi',
-        'description' => 'Jelajahi koleksi dan sumber informasi pertanian.',
-        'icon' => 'menu_book',
-        'url' => route('collections.index'),
-    ],
-    [
-        'label' => 'Berita & Artikel',
-        'description' => 'Informasi dan publikasi terbaru BB Pustaka.',
-        'icon' => 'newspaper',
-        'url' => route('news.index'),
-    ],
-    [
-        'label' => 'Repository',
-        'description' => 'Akses karya ilmiah dan publikasi pertanian.',
-        'icon' => 'database',
-        'url' => 'http://repository.pertanian.go.id',
-        'external' => true,
-    ],
-    [
-        'label' => 'AI Assistant',
-        'description' => 'Tanyakan informasi portal dengan lebih cepat.',
-        'icon' => 'smart_toy',
-        'action' => 'open-chat',
-        'featured' => true,
-    ],
-    [
-        'label' => 'Kegiatan',
-        'description' => 'Lihat jadwal dan kegiatan terbaru BB Pustaka.',
-        'icon' => 'event_available',
-        'url' => route('home').'#kegiatan',
-    ],
-    [
-        'label' => 'Kontak & Lokasi',
-        'description' => 'Hubungi kami dan temukan lokasi BB Pustaka.',
-        'icon' => 'location_on',
-        'url' => route('contact.index'),
-    ],
-    [
-        'label' => 'Tentang Kami',
-        'description' => 'Kenali profil, sejarah, dan peran BB Pustaka.',
-        'icon' => 'account_balance',
-        'url' => route('about'),
-    ],
-];
+            [
+                'label' => 'Koleksi',
+                'description' => 'Jelajahi koleksi dan sumber informasi pertanian.',
+                'icon' => 'menu_book',
+                'url' => route('collections.index'),
+            ],
+            [
+                'label' => 'Berita & Artikel',
+                'description' => 'Informasi dan publikasi terbaru BB Pustaka.',
+                'icon' => 'newspaper',
+                'url' => route('news.index'),
+            ],
+            [
+                'label' => 'Repository',
+                'description' => 'Akses karya ilmiah dan publikasi pertanian.',
+                'icon' => 'database',
+                'url' => 'http://repository.pertanian.go.id',
+                'external' => true,
+            ],
+            [
+                'label' => 'AI Assistant',
+                'description' => 'Tanyakan informasi portal dengan lebih cepat.',
+                'icon' => 'smart_toy',
+                'action' => 'open-chat',
+                'featured' => true,
+            ],
+            [
+                'label' => 'Kegiatan',
+                'description' => 'Lihat jadwal dan kegiatan terbaru BB Pustaka.',
+                'icon' => 'event_available',
+                'url' => route('home').'#kegiatan',
+            ],
+            [
+                'label' => 'Kontak & Lokasi',
+                'description' => 'Hubungi kami dan temukan lokasi BB Pustaka.',
+                'icon' => 'location_on',
+                'url' => route('contact.index'),
+            ],
+            [
+                'label' => 'Tentang Kami',
+                'description' => 'Kenali profil, sejarah, dan peran BB Pustaka.',
+                'icon' => 'account_balance',
+                'url' => route('about'),
+            ],
+        ];
 
         $faqs = Faq::ordered()->take(4)->get();
 
-        $agendaList=\App\Models\Agenda::orderBy('starts_at')->get();
+        $agendaList = \App\Models\Agenda::orderBy('starts_at')->get();
 
-        $featuredAgenda=$agendaList->first(fn($a)=>$a->status()==='Sedang Berlangsung')
-            ??$agendaList->first(fn($a)=>$a->status()==='Akan Dimulai')
-            ??$agendaList->sortByDesc('starts_at')->first();
+        $featuredAgenda = $agendaList->first(fn ($a) => $a->status() === 'Sedang Berlangsung')
+            ?? $agendaList->first(fn ($a) => $a->status() === 'Akan Dimulai')
+            ?? $agendaList->sortByDesc('starts_at')->first();
 
-        $upcomingAgendas=$agendaList
-            ->filter(fn($a)=>$a->starts_at->isFuture())
-            ->reject(fn($a)=>$featuredAgenda&&$a->is($featuredAgenda))
+        $upcomingAgendas = $agendaList
+            ->filter(fn ($a) => $a->starts_at->isFuture())
+            ->reject(fn ($a) => $featuredAgenda && $a->is($featuredAgenda))
             ->take(6);
 
-        $pastAgendas=$agendaList
-            ->filter(fn($a)=>($a->ends_at??$a->starts_at)->isPast())
-            ->reject(fn($a)=>$featuredAgenda&&$a->is($featuredAgenda))
+        $pastAgendas = $agendaList
+            ->filter(fn ($a) => ($a->ends_at ?? $a->starts_at)->isPast())
+            ->reject(fn ($a) => $featuredAgenda && $a->is($featuredAgenda))
             ->sortByDesc('starts_at')
             ->take(4);
 
@@ -134,6 +159,7 @@ class HomeController extends Controller
             'stats',
             'quickLinks',
             'profile',
+            'informationSources',
             'latestNews',
             'featuredCollections',
             'faqs'

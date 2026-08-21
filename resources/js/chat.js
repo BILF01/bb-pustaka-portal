@@ -15,9 +15,7 @@ const SESSION_KEY = 'bbpustaka_chat_session';
 marked.setOptions({
     breaks: true,
     highlight(code, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-            return hljs.highlight(code, { language: lang }).value;
-        }
+        if (lang && hljs.getLanguage(lang)) return hljs.highlight(code, { language: lang }).value;
         return hljs.highlightAuto(code).value;
     },
 });
@@ -31,7 +29,7 @@ export function registerChatStore(Alpine) {
         open: false,
         loading: false,
         booting: true,
-        sessionUuid: localStorage.getItem(SESSION_KEY) || null,
+        sessionUuid: sessionStorage.getItem(SESSION_KEY) || null,
         visitorToken: localStorage.getItem(VISITOR_KEY) || null,
         messages: [],
         input: '',
@@ -43,11 +41,9 @@ export function registerChatStore(Alpine) {
         ],
 
         async init() {
-            if (!this.sessionUuid) {
-                await this._startSession();
-            } else {
-                await this._loadHistory();
-            }
+            localStorage.removeItem(SESSION_KEY);
+            if (!this.sessionUuid) await this._startSession();
+            else await this._loadHistory();
             this.booting = false;
         },
 
@@ -65,7 +61,7 @@ export function registerChatStore(Alpine) {
                 const data = await response.json();
                 this.sessionUuid = data.session_uuid;
                 this.visitorToken = data.visitor_token;
-                localStorage.setItem(SESSION_KEY, this.sessionUuid);
+                sessionStorage.setItem(SESSION_KEY, this.sessionUuid);
                 localStorage.setItem(VISITOR_KEY, this.visitorToken);
             } catch (e) {
                 console.error('Gagal memulai sesi chat', e);
@@ -76,14 +72,17 @@ export function registerChatStore(Alpine) {
             try {
                 const response = await fetch(`/chat/sessions/${this.sessionUuid}/messages`);
                 if (!response.ok) {
+                    sessionStorage.removeItem(SESSION_KEY);
+                    this.sessionUuid = null;
                     await this._startSession();
                     return;
                 }
+
                 const data = await response.json();
-                this.messages = data.map((m) => ({
-                    role: m.role,
-                    html: this.renderMarkdown(m.content),
-                    time: this._formatTime(m.created_at),
+                this.messages = data.map((message) => ({
+                    role: message.role,
+                    html: this.renderMarkdown(message.content),
+                    time: this._formatTime(message.created_at),
                 }));
                 this._scrollToBottom();
             } catch (e) {
@@ -96,16 +95,13 @@ export function registerChatStore(Alpine) {
         },
 
         _formatTime(isoString) {
-            const date = new Date(isoString);
-            return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            return new Date(isoString).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         },
 
         _scrollToBottom() {
             requestAnimationFrame(() => {
                 const container = document.getElementById('chat-messages');
-                if (container) {
-                    container.scrollTop = container.scrollHeight;
-                }
+                if (container) container.scrollTop = container.scrollHeight;
             });
         },
 
@@ -123,6 +119,7 @@ export function registerChatStore(Alpine) {
                 html: this.renderMarkdown(text),
                 time: this._formatTime(new Date().toISOString()),
             });
+
             this.input = '';
             this.loading = true;
             this._scrollToBottom();
@@ -137,6 +134,7 @@ export function registerChatStore(Alpine) {
                     },
                     body: JSON.stringify({ message: text }),
                 });
+
                 const data = await response.json();
                 this.messages.push({
                     role: 'assistant',
