@@ -16,8 +16,20 @@ class StoreHeroSlideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => [$this->isMethod('post') ? 'required' : 'nullable', 'image', 'max:2048'],
-            'order' => ['nullable', 'integer', 'min:0'],
+            'image' => [
+                $this->isMethod('post') ? 'required' : 'nullable',
+                'image',
+                'max:2048',
+            ],
+            'order' => [
+                'nullable',
+                'integer',
+                'min:0',
+            ],
+            'is_active' => [
+                'sometimes',
+                'boolean',
+            ],
         ];
     }
 }

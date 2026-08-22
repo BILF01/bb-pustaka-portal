@@ -14,7 +14,10 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        $heroSlides = \App\Models\HeroSlide::ordered()->get();
+        $heroSlides = \App\Models\HeroSlide::active()
+            ->ordered()
+            ->take(5)
+            ->get();
 
         $slides = $heroSlides->isNotEmpty()
             ? $heroSlides->map(fn ($slide) => ['image' => $slide->image_path])->toArray()

@@ -1,81 +1,394 @@
-<div x-data="{ open: false, sending: false, sent: false, level: 0, foundInfo: null, message: '', desired: '' }">
-    <button type="button" @click="open = true" class="group w-full p-5 bg-white/90 hover:bg-white backdrop-blur-sm border border-outline-variant/30 rounded-2xl text-left shadow-sm hover:shadow-md transition-all">
+<div
+    x-data="{
+        open: false,
+        sending: false,
+        sent: false,
+        level: 0,
+        foundInfo: null,
+        message: '',
+        desired: '',
+        ratings: [
+            {
+                value: 1,
+                emoji: String.fromCodePoint(0x1F61E),
+                label: 'Sangat tidak puas'
+            },
+            {
+                value: 2,
+                emoji: String.fromCodePoint(0x1F610),
+                label: 'Tidak puas'
+            },
+            {
+                value: 3,
+                emoji: String.fromCodePoint(0x1F642),
+                label: 'Cukup puas'
+            },
+            {
+                value: 4,
+                emoji: String.fromCodePoint(0x1F604),
+                label: 'Puas'
+            },
+            {
+                value: 5,
+                emoji: String.fromCodePoint(0x1F970),
+                label: 'Sangat puas'
+            }
+        ],
+
+        closeModal() {
+            this.open = false;
+        },
+
+        resetForm() {
+            this.sending = false;
+            this.sent = false;
+            this.level = 0;
+            this.foundInfo = null;
+            this.message = '';
+            this.desired = '';
+        },
+
+        closeSuccess() {
+            this.open = false;
+
+            setTimeout(() => {
+                this.resetForm();
+            }, 200);
+        }
+    }"
+>
+    <button
+        type="button"
+        @click="open = true"
+        class="group w-full rounded-2xl border border-outline-variant/30 bg-white/90 p-5 text-left shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:shadow-md"
+    >
         <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined" aria-hidden="true">forum</span>
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <span
+                    class="material-symbols-outlined"
+                    aria-hidden="true"
+                >
+                    forum
+                </span>
             </div>
 
-            <div class="flex-1 min-w-0">
-                <span class="block font-bold text-primary">{{ t('Beri Umpan Balik') }}</span>
-                <span class="block mt-1 text-sm leading-relaxed text-on-surface-variant">
+            <div class="min-w-0 flex-1">
+                <span class="block font-bold text-primary">
+                    {{ t('Beri Umpan Balik') }}
+                </span>
+
+                <span class="mt-1 block text-sm leading-relaxed text-on-surface-variant">
                     {{ __('Pendapat Anda sangat berarti untuk meningkatkan layanan kami.') }}
                 </span>
 
-                <span class="inline-flex items-center gap-1 mt-4 text-sm font-bold text-primary">
+                <span class="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary">
                     {{ __('Sampaikan Masukan') }}
-                    <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+
+                    <span
+                        class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1"
+                        aria-hidden="true"
+                    >
+                        arrow_forward
+                    </span>
                 </span>
             </div>
         </div>
     </button>
 
-    <div x-show="open" x-cloak style="display:none" x-transition class="fixed inset-0 z-[110] bg-black/50 flex items-center justify-center p-4" @keydown.escape.window="open = false">
-        <div @click.outside="open = false" class="bg-white text-on-surface rounded-xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-y-auto p-6" role="dialog" aria-modal="true" aria-label="Umpan Balik Portal">
-            <h2 class="text-lg font-bold text-primary mb-4">{{ t('Berikan Masukan untuk Perbaikan Portal BB Pustaka') }}</h2>
+    <div
+        x-show="open"
+        x-cloak
+        style="display: none;"
+        x-transition.opacity
+        class="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-3 sm:p-5"
+        @keydown.escape.window="closeModal()"
+    >
+        <div
+            @click.outside="closeModal()"
+            class="flex max-h-[calc(100dvh-24px)] w-full max-w-[580px] flex-col overflow-hidden rounded-2xl bg-white text-on-surface shadow-2xl sm:max-h-[calc(100dvh-40px)]"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Umpan Balik Portal"
+        >
+            <header class="shrink-0 border-b border-outline-variant/20 bg-white px-5 py-4 sm:px-6">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="min-w-0">
+                        <p class="text-xs font-semibold uppercase tracking-[0.1em] text-primary/65">
+                            Umpan Balik
+                        </p>
+
+                        <h2 class="mt-1 text-lg font-bold leading-snug text-primary">
+                            {{ t('Berikan Masukan untuk Perbaikan Portal BB Pustaka') }}
+                        </h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="closeModal()"
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-on-surface-variant transition hover:bg-surface-container-low hover:text-on-surface"
+                        aria-label="{{ t('Tutup') }}"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[21px]"
+                            aria-hidden="true"
+                        >
+                            close
+                        </span>
+                    </button>
+                </div>
+            </header>
 
             <template x-if="!sent">
-                <form @submit.prevent="
-                    sending = true;
-                    fetch('{{ route('feedback.store') }}', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, Accept: 'application/json' },
-                        body: JSON.stringify({ satisfaction_level: level, found_information: foundInfo, message: message, desired_feature: desired })
-                    }).then(() => { sending = false; sent = true; }).catch(() => { sending = false; })
-                " class="space-y-5">
-                    <div>
-                        <p class="text-sm font-semibold mb-2">{{ t('Seberapa Puas Anda dengan Portal Ini?') }}</p>
-                        <div class="flex gap-2">
-                            <template x-for="i in 5" :key="i">
-                                <button type="button" @click="level = i" :class="level === i ? 'bg-primary/10 ring-2 ring-primary' : 'bg-surface-container-low'" class="flex-1 py-2 rounded-lg text-2xl">
-                                    <span x-text="['😞','😐','🙂','😄','🥰'][i-1]"></span>
-                                </button>
-                            </template>
+                <form
+                    @submit.prevent="
+                        sending = true;
+
+                        fetch('{{ route('feedback.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                satisfaction_level: level,
+                                found_information: foundInfo,
+                                message: message,
+                                desired_feature: desired
+                            })
+                        })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error('Gagal mengirim umpan balik.');
+                            }
+
+                            sending = false;
+                            sent = true;
+                        })
+                        .catch(() => {
+                            sending = false;
+                        });
+                    "
+                    class="flex min-h-0 flex-1 flex-col"
+                >
+                    <div class="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6">
+                        <div class="space-y-6">
+                            <section>
+                                <div class="mb-3">
+                                    <p class="text-sm font-semibold text-on-surface">
+                                        {{ t('Seberapa Puas Anda dengan Portal Ini?') }}
+                                        <span class="text-error">*</span>
+                                    </p>
+
+                                    <p class="mt-1 text-xs text-on-surface-variant">
+                                        Pilih tingkat kepuasan Anda terhadap pengalaman menggunakan portal.
+                                    </p>
+                                </div>
+
+                                <div class="grid grid-cols-5 gap-2">
+                                    <template
+                                        x-for="rating in ratings"
+                                        :key="rating.value"
+                                    >
+                                        <button
+                                            type="button"
+                                            @click="level = rating.value"
+                                            :aria-label="rating.label"
+                                            :title="rating.label"
+                                            :aria-pressed="(level === rating.value).toString()"
+                                            :class="
+                                                level === rating.value
+                                                    ? 'border-primary bg-primary/10 ring-2 ring-primary/20'
+                                                    : 'border-transparent bg-surface-container-low hover:border-primary/20 hover:bg-primary/5'
+                                            "
+                                            class="flex min-h-[58px] items-center justify-center rounded-xl border text-2xl transition-all sm:min-h-[64px] sm:text-[28px]"
+                                        >
+                                            <span x-text="rating.emoji"></span>
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <div
+                                    x-show="level"
+                                    x-transition
+                                    class="mt-2 text-center text-xs font-semibold text-primary"
+                                    x-text="ratings.find((rating) => rating.value === level)?.label"
+                                ></div>
+                            </section>
+
+                            <section>
+                                <div class="mb-3">
+                                    <p class="text-sm font-semibold leading-5 text-on-surface">
+                                        {{ t('Apakah Anda dapat menemukan berita/informasi/layanan yang Anda cari?') }}
+                                        <span class="text-error">*</span>
+                                    </p>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button
+                                        type="button"
+                                        @click="foundInfo = false"
+                                        :aria-pressed="(foundInfo === false).toString()"
+                                        :class="
+                                            foundInfo === false
+                                                ? 'border-error/40 bg-error-container/40 text-error ring-2 ring-error/10'
+                                                : 'border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low'
+                                        "
+                                        class="flex h-11 items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition"
+                                    >
+                                        <span
+                                            class="material-symbols-outlined text-[19px]"
+                                            aria-hidden="true"
+                                        >
+                                            close
+                                        </span>
+
+                                        {{ t('Tidak') }}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        @click="foundInfo = true"
+                                        :aria-pressed="(foundInfo === true).toString()"
+                                        :class="
+                                            foundInfo === true
+                                                ? 'border-primary/40 bg-primary/10 text-primary ring-2 ring-primary/10'
+                                                : 'border-outline-variant/40 bg-white text-on-surface-variant hover:bg-surface-container-low'
+                                        "
+                                        class="flex h-11 items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition"
+                                    >
+                                        <span
+                                            class="material-symbols-outlined text-[19px]"
+                                            aria-hidden="true"
+                                        >
+                                            check
+                                        </span>
+
+                                        {{ t('Ya') }}
+                                    </button>
+                                </div>
+                            </section>
+
+                            <section>
+                                <label
+                                    for="fb-message"
+                                    class="mb-1.5 block text-sm font-semibold text-on-surface"
+                                >
+                                    {{ t('Kritik dan saran Anda untuk portal ini?') }}
+                                    <span class="text-error">*</span>
+                                </label>
+
+                                <textarea
+                                    id="fb-message"
+                                    x-model="message"
+                                    maxlength="500"
+                                    rows="4"
+                                    required
+                                    placeholder="{{ t('Masukkan jawaban Anda di sini') }}"
+                                    class="w-full resize-y rounded-xl border border-outline-variant/50 p-3.5 text-sm leading-6 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                ></textarea>
+
+                                <div class="mt-1.5 flex justify-end">
+                                    <p
+                                        class="text-xs text-on-surface-variant"
+                                        x-text="message.length + ' / 500'"
+                                    ></p>
+                                </div>
+                            </section>
+
+                            <section>
+                                <label
+                                    for="fb-desired"
+                                    class="mb-1.5 block text-sm font-semibold text-on-surface"
+                                >
+                                    {{ t('Fitur apa yang Anda inginkan namun belum tersedia?') }}
+                                </label>
+
+                                <textarea
+                                    id="fb-desired"
+                                    x-model="desired"
+                                    maxlength="500"
+                                    rows="3"
+                                    placeholder="{{ t('Opsional') }}"
+                                    class="w-full resize-y rounded-xl border border-outline-variant/50 p-3.5 text-sm leading-6 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                ></textarea>
+
+                                <div class="mt-1.5 flex items-center justify-between gap-3">
+                                    <p class="text-xs text-on-surface-variant">
+                                        Opsional
+                                    </p>
+
+                                    <p
+                                        class="text-xs text-on-surface-variant"
+                                        x-text="desired.length + ' / 500'"
+                                    ></p>
+                                </div>
+                            </section>
                         </div>
                     </div>
 
-                    <div>
-                        <p class="text-sm font-semibold mb-2">{{ t('Apakah Anda dapat menemukan berita/informasi/layanan yang Anda cari?') }} <span class="text-error">*</span></p>
-                        <div class="flex gap-4 text-sm">
-                            <label class="flex items-center gap-2"><input type="radio" @change="foundInfo = false" name="found"> {{ t('Tidak') }}</label>
-                            <label class="flex items-center gap-2"><input type="radio" @change="foundInfo = true" name="found"> {{ t('Ya') }}</label>
+                    <footer class="shrink-0 border-t border-outline-variant/20 bg-white px-5 py-4 sm:px-6">
+                        <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                            <button
+                                type="button"
+                                @click="closeModal()"
+                                class="inline-flex h-11 items-center justify-center rounded-xl border border-outline-variant/50 px-5 text-sm font-semibold text-on-surface transition hover:bg-surface-container-low"
+                            >
+                                {{ t('Tutup') }}
+                            </button>
+
+                            <button
+                                type="submit"
+                                :disabled="sending || !level || foundInfo === null || !message.trim()"
+                                class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-bold text-on-primary transition hover:bg-primary-container disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                <span
+                                    x-show="sending"
+                                    class="material-symbols-outlined animate-spin text-[18px]"
+                                    aria-hidden="true"
+                                >
+                                    progress_activity
+                                </span>
+
+                                <span
+                                    x-text="sending ? '{{ t('Mengirim...') }}' : '{{ t('Kirim Masukan') }}'"
+                                ></span>
+                            </button>
                         </div>
-                    </div>
-
-                    <div>
-                        <label for="fb-message" class="text-sm font-semibold block mb-1">{{ t('Kritik dan saran Anda untuk portal ini?') }} <span class="text-error">*</span></label>
-                        <textarea id="fb-message" x-model="message" maxlength="500" rows="3" required placeholder="{{ t('Masukkan jawaban Anda di sini') }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"></textarea>
-                        <p class="text-xs text-on-surface-variant mt-1" x-text="(500 - message.length) + ' karakter tersisa'"></p>
-                    </div>
-
-                    <div>
-                        <label for="fb-desired" class="text-sm font-semibold block mb-1">{{ t('Fitur apa yang Anda inginkan namun belum tersedia?') }}</label>
-                        <textarea id="fb-desired" x-model="desired" maxlength="500" rows="2" placeholder="{{ t('Opsional') }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"></textarea>
-                    </div>
-
-                    <div class="flex justify-end gap-3 pt-2">
-                        <button type="button" @click="open = false" class="px-5 h-11 border border-outline-variant rounded-lg font-semibold text-sm">{{ t('Tutup') }}</button>
-                        <button type="submit" :disabled="sending || !level || foundInfo === null || !message" class="px-5 h-11 bg-primary text-on-primary rounded-lg font-bold text-sm disabled:opacity-40">
-                            <span x-text="sending ? '{{ t('Mengirim...') }}' : '{{ t('Kirim Masukan') }}'"></span>
-                        </button>
-                    </div>
+                    </footer>
                 </form>
             </template>
 
             <template x-if="sent">
-                <div class="text-center py-8">
-                    <span class="material-symbols-outlined text-primary text-5xl" aria-hidden="true">check_circle</span>
-                    <p class="mt-3 font-semibold">{{ t('Terima kasih atas masukan Anda.') }}</p>
-                    <button type="button" @click="open = false" class="mt-4 px-5 h-11 bg-primary text-on-primary rounded-lg font-bold text-sm">{{ t('Tutup') }}</button>
+                <div class="flex min-h-[360px] flex-col">
+                    <div class="flex flex-1 items-center justify-center px-6 py-10">
+                        <div class="max-w-sm text-center">
+                            <span
+                                class="material-symbols-outlined text-6xl text-primary"
+                                aria-hidden="true"
+                            >
+                                check_circle
+                            </span>
+
+                            <h3 class="mt-4 text-lg font-bold text-on-surface">
+                                Masukan berhasil dikirim
+                            </h3>
+
+                            <p class="mt-2 text-sm leading-6 text-on-surface-variant">
+                                {{ t('Terima kasih atas masukan Anda.') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <footer class="shrink-0 border-t border-outline-variant/20 bg-white px-5 py-4 sm:px-6">
+                        <button
+                            type="button"
+                            @click="closeSuccess()"
+                            class="inline-flex h-11 w-full items-center justify-center rounded-xl bg-primary px-5 text-sm font-bold text-on-primary transition hover:bg-primary-container sm:ml-auto sm:w-auto"
+                        >
+                            {{ t('Tutup') }}
+                        </button>
+                    </footer>
                 </div>
             </template>
         </div>

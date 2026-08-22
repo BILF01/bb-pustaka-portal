@@ -10,17 +10,44 @@ use App\Http\Requests\UpdateCollectionRequest;
 use App\Models\Collection;
 use App\Models\CollectionCategory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class CollectionController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $collections = Collection::with('category')->latest()->paginate(15);
+        $query = Collection::query()
+            ->with('category')
+            ->latest();
 
-        return view('admin.collections.index', compact('collections'));
+        if ($request->filled('q')) {
+            $query->search(trim((string) $request->query('q')));
+        }
+
+        if ($request->filled('category')) {
+            $query->where('collection_category_id', $request->query('category'));
+        }
+
+        if ($request->query('featured') === 'yes') {
+            $query->where('is_featured', true);
+        }
+
+        if ($request->query('featured') === 'no') {
+            $query->where('is_featured', false);
+        }
+
+        $collections = $query
+            ->paginate(15)
+            ->withQueryString();
+
+        $categories = CollectionCategory::query()
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.collections.index', compact('collections', 'categories'));
     }
 
     public function create(): View
@@ -45,7 +72,9 @@ class CollectionController extends Controller
 
         Collection::create($validated);
 
-        return redirect()->route('admin.collections.index')->with('success', 'Koleksi berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.collections.index')
+            ->with('success', 'Koleksi berhasil ditambahkan.');
     }
 
     public function edit(Collection $collection): View
@@ -68,13 +97,17 @@ class CollectionController extends Controller
 
         $collection->update($validated);
 
-        return redirect()->route('admin.collections.index')->with('success', 'Koleksi berhasil diperbarui.');
+        return redirect()
+            ->route('admin.collections.index')
+            ->with('success', 'Koleksi berhasil diperbarui.');
     }
 
     public function destroy(Collection $collection): RedirectResponse
     {
         $collection->delete();
 
-        return redirect()->route('admin.collections.index')->with('success', 'Koleksi berhasil dihapus.');
+        return redirect()
+            ->route('admin.collections.index')
+            ->with('success', 'Koleksi berhasil dihapus.');
     }
 }

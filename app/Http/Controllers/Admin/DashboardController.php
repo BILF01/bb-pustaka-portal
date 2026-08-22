@@ -27,7 +27,7 @@ class DashboardController extends Controller
         }
 
         if ($user->can('hero-slides.manage')) {
-            $stats['hero_slides'] = HeroSlide::query()->count();
+            $stats['hero_slides'] = HeroSlide::active()->count();
         }
 
         if ($user->can('collections.manage')) {

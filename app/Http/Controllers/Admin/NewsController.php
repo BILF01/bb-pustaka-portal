@@ -10,17 +10,50 @@ use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
 use App\Models\NewsCategory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class NewsController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $newsList = News::with('category')->latest()->paginate(15);
+        $query = News::query()
+            ->with('category')
+            ->latest();
 
-        return view('admin.news.index', compact('newsList'));
+        if ($request->filled('q')) {
+            $search = trim((string) $request->query('q'));
+
+            $query->where(function ($query) use ($search): void {
+                $query
+                    ->where('title', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->where('news_category_id', $request->query('category'));
+        }
+
+        if ($request->query('status') === 'published') {
+            $query->where('is_published', true);
+        }
+
+        if ($request->query('status') === 'draft') {
+            $query->where('is_published', false);
+        }
+
+        $newsList = $query
+            ->paginate(15)
+            ->withQueryString();
+
+        $categories = NewsCategory::query()
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.news.index', compact('newsList', 'categories'));
     }
 
     public function create(): View
@@ -46,7 +79,9 @@ class NewsController extends Controller
 
         News::create($validated);
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.news.index')
+            ->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function edit(News $news): View
@@ -61,7 +96,9 @@ class NewsController extends Controller
         $validated = $request->validated();
 
         $validated['is_published'] = $request->boolean('is_published');
-        $validated['published_at'] = $validated['is_published'] ? ($news->published_at ?? now()) : null;
+        $validated['published_at'] = $validated['is_published']
+            ? ($news->published_at ?? now())
+            : null;
 
         if ($request->hasFile('image')) {
             $validated['image_path'] = Storage::disk('public')->url(
@@ -71,13 +108,17 @@ class NewsController extends Controller
 
         $news->update($validated);
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()
+            ->route('admin.news.index')
+            ->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy(News $news): RedirectResponse
     {
         $news->delete();
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus.');
+        return redirect()
+            ->route('admin.news.index')
+            ->with('success', 'Berita berhasil dihapus.');
     }
 }

@@ -1,85 +1,383 @@
 <x-layouts.admin title="Ubah Koleksi">
-    <form method="POST" action="{{ route('admin.collections.update', $collection) }}" enctype="multipart/form-data" class="bg-white p-6 rounded-xl border border-outline-variant/30 shadow-sm max-w-2xl space-y-4">
+    <form
+        method="POST"
+        action="{{ route('admin.collections.update', $collection) }}"
+        enctype="multipart/form-data"
+        class="space-y-5"
+    >
         @csrf
         @method('PUT')
 
-        <div>
-            <label for="collection_category_id" class="text-sm font-semibold block mb-1">Kategori</label>
-            <select id="collection_category_id" name="collection_category_id" required class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" @selected(old('collection_category_id', $collection->collection_category_id) == $category->id)>{{ $category->name }}</option>
-                @endforeach
-            </select>
-            @error('collection_category_id') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+        <section class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="min-w-0">
+                <a
+                    href="{{ route('admin.collections.index') }}"
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+                >
+                    <span class="material-symbols-outlined text-[17px]" aria-hidden="true">
+                        arrow_back
+                    </span>
 
-        <div>
-            <label for="title" class="text-sm font-semibold block mb-1">Judul Buku</label>
-            <input id="title" name="title" type="text" value="{{ old('title', $collection->title) }}" required class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-            @error('title') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+                    Daftar Koleksi
+                </a>
 
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label for="author" class="text-sm font-semibold block mb-1">Penulis</label>
-                <input id="author" name="author" type="text" value="{{ old('author', $collection->author) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @error('author') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
+                <h2 class="mt-2 text-xl font-bold tracking-tight text-on-surface">
+                    Ubah Koleksi
+                </h2>
+
+                <p class="mt-1 truncate text-sm text-on-surface-variant">
+                    {{ $collection->title }}
+                </p>
             </div>
-            <div>
-                <label for="publisher" class="text-sm font-semibold block mb-1">Penerbit</label>
-                <input id="publisher" name="publisher" type="text" value="{{ old('publisher', $collection->publisher) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @error('publisher') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
+
+            <div class="flex shrink-0 gap-2">
+                <a
+                    href="{{ route('admin.collections.index') }}"
+                    class="inline-flex h-11 items-center justify-center rounded-xl border border-outline-variant/50 px-4 text-sm font-semibold transition hover:bg-surface-container-low"
+                >
+                    Batal
+                </a>
+
+                <button
+                    type="submit"
+                    class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary-container"
+                >
+                    <span class="material-symbols-outlined text-[19px]" aria-hidden="true">
+                        save
+                    </span>
+
+                    Perbarui
+                </button>
             </div>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-3 gap-4">
-            <div>
-                <label for="published_year" class="text-sm font-semibold block mb-1">Tahun Terbit</label>
-                <input id="published_year" name="published_year" type="number" value="{{ old('published_year', $collection->published_year) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @error('published_year') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
+        <div class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="space-y-5">
+                <section class="rounded-2xl border border-outline-variant/25 bg-white p-5 sm:p-6">
+                    <div class="mb-5">
+                        <h3 class="text-sm font-bold">
+                            Informasi Utama
+                        </h3>
+
+                        <p class="mt-1 text-xs text-on-surface-variant">
+                            Perbarui informasi bibliografi koleksi.
+                        </p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="title" class="mb-1.5 block text-sm font-semibold">
+                                Judul Buku
+                            </label>
+
+                            <input
+                                id="title"
+                                name="title"
+                                type="text"
+                                value="{{ old('title', $collection->title) }}"
+                                required
+                                class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                            >
+
+                            @error('title')
+                                <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div>
+                                <label for="author" class="mb-1.5 block text-sm font-semibold">
+                                    Penulis
+                                </label>
+
+                                <input
+                                    id="author"
+                                    name="author"
+                                    type="text"
+                                    value="{{ old('author', $collection->author) }}"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+
+                                @error('author')
+                                    <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="publisher" class="mb-1.5 block text-sm font-semibold">
+                                    Penerbit
+                                </label>
+
+                                <input
+                                    id="publisher"
+                                    name="publisher"
+                                    type="text"
+                                    value="{{ old('publisher', $collection->publisher) }}"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+
+                                @error('publisher')
+                                    <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="grid gap-4 sm:grid-cols-3">
+                            <div>
+                                <label for="published_year" class="mb-1.5 block text-sm font-semibold">
+                                    Tahun Terbit
+                                </label>
+
+                                <input
+                                    id="published_year"
+                                    name="published_year"
+                                    type="number"
+                                    value="{{ old('published_year', $collection->published_year) }}"
+                                    min="1900"
+                                    max="{{ date('Y') + 1 }}"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+
+                                @error('published_year')
+                                    <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="isbn" class="mb-1.5 block text-sm font-semibold">
+                                    ISBN
+                                </label>
+
+                                <input
+                                    id="isbn"
+                                    name="isbn"
+                                    type="text"
+                                    value="{{ old('isbn', $collection->isbn) }}"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+
+                                @error('isbn')
+                                    <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="page_count" class="mb-1.5 block text-sm font-semibold">
+                                    Tebal Buku
+                                </label>
+
+                                <input
+                                    id="page_count"
+                                    name="page_count"
+                                    type="text"
+                                    value="{{ old('page_count', $collection->page_count) }}"
+                                    placeholder="94 halaman"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 px-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+
+                                @error('page_count')
+                                    <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-2xl border border-outline-variant/25 bg-white p-5 sm:p-6">
+                    <div class="mb-5">
+                        <h3 class="text-sm font-bold">
+                            Akses & Deskripsi
+                        </h3>
+
+                        <p class="mt-1 text-xs text-on-surface-variant">
+                            Perbarui tautan repository dan sinopsis koleksi.
+                        </p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="access_link" class="mb-1.5 block text-sm font-semibold">
+                                Tautan Akses Repository
+                            </label>
+
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[19px] text-on-surface-variant/55"
+                                    aria-hidden="true"
+                                >
+                                    link
+                                </span>
+
+                                <input
+                                    id="access_link"
+                                    name="access_link"
+                                    type="url"
+                                    value="{{ old('access_link', $collection->access_link) }}"
+                                    class="h-11 w-full rounded-xl border border-outline-variant/50 pl-10 pr-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                                >
+                            </div>
+
+                            @error('access_link')
+                                <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="synopsis" class="mb-1.5 block text-sm font-semibold">
+                                Sinopsis
+                            </label>
+
+                            <textarea
+                                id="synopsis"
+                                name="synopsis"
+                                rows="7"
+                                class="w-full resize-y rounded-xl border border-outline-variant/50 p-3.5 text-sm leading-6 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                            >{{ old('synopsis', $collection->synopsis) }}</textarea>
+
+                            @error('synopsis')
+                                <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div>
-                <label for="isbn" class="text-sm font-semibold block mb-1">ISBN</label>
-                <input id="isbn" name="isbn" type="text" value="{{ old('isbn', $collection->isbn) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @error('isbn') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-            <div>
-                <label for="page_count" class="text-sm font-semibold block mb-1">Tebal Buku</label>
-                <input id="page_count" name="page_count" type="text" placeholder="94 halaman" value="{{ old('page_count', $collection->page_count) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                @error('page_count') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
+
+            <aside class="space-y-5">
+                <section class="rounded-2xl border border-outline-variant/25 bg-white p-5">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span
+                            class="material-symbols-outlined text-[20px] text-primary"
+                            aria-hidden="true"
+                        >
+                            category
+                        </span>
+
+                        <h3 class="text-sm font-bold">
+                            Kategori
+                        </h3>
+                    </div>
+
+                    <select
+                        id="collection_category_id"
+                        name="collection_category_id"
+                        required
+                        class="h-11 w-full rounded-xl border border-outline-variant/50 bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    >
+                        @foreach ($categories as $category)
+                            <option
+                                value="{{ $category->id }}"
+                                @selected(old('collection_category_id', $collection->collection_category_id) == $category->id)
+                            >
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('collection_category_id')
+                        <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                    @enderror
+                </section>
+
+                <section class="rounded-2xl border border-outline-variant/25 bg-white p-5">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span
+                            class="material-symbols-outlined text-[20px] text-primary"
+                            aria-hidden="true"
+                        >
+                            image
+                        </span>
+
+                        <h3 class="text-sm font-bold">
+                            Sampul Buku
+                        </h3>
+                    </div>
+
+                    @if ($collection->cover_path)
+                        <div class="mb-4 flex justify-center rounded-xl bg-surface-container-low p-4">
+                            <img
+                                src="{{ $collection->cover_path }}"
+                                alt="Sampul {{ $collection->title }}"
+                                class="max-h-56 w-auto rounded-lg object-cover shadow-sm"
+                            >
+                        </div>
+                    @endif
+
+                    <label for="cover" class="mb-1.5 block text-sm font-semibold">
+                        {{ $collection->cover_path ? 'Ganti Sampul' : 'Pilih Sampul' }}
+                    </label>
+
+                    <input
+                        id="cover"
+                        name="cover"
+                        type="file"
+                        accept="image/*"
+                        class="block w-full rounded-xl border border-outline-variant/50 bg-white p-2.5 text-xs text-on-surface-variant file:mr-3 file:rounded-lg file:border-0 file:bg-primary/10 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-primary"
+                    >
+
+                    <p class="mt-2 text-xs text-on-surface-variant">
+                        Kosongkan jika tidak ingin mengganti sampul.
+                    </p>
+
+                    @error('cover')
+                        <p class="mt-1.5 text-xs text-error">{{ $message }}</p>
+                    @enderror
+                </section>
+
+                <section class="rounded-2xl border border-outline-variant/25 bg-white p-5">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span
+                            class="material-symbols-outlined text-[20px] text-on-secondary-container"
+                            aria-hidden="true"
+                        >
+                            star
+                        </span>
+
+                        <h3 class="text-sm font-bold">
+                            Koleksi Unggulan
+                        </h3>
+                    </div>
+
+                    <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-outline-variant/30 p-3.5 transition hover:bg-surface-container-low">
+                        <input
+                            type="checkbox"
+                            name="is_featured"
+                            value="1"
+                            @checked(old('is_featured', $collection->is_featured))
+                            class="mt-0.5 h-4 w-4 rounded border-outline text-primary focus:ring-primary"
+                        >
+
+                        <span>
+                            <span class="block text-sm font-semibold">
+                                Tampilkan sebagai unggulan
+                            </span>
+
+                            <span class="mt-1 block text-xs leading-5 text-on-surface-variant">
+                                Nonaktifkan jika koleksi tidak lagi ingin ditampilkan sebagai unggulan.
+                            </span>
+                        </span>
+                    </label>
+                </section>
+            </aside>
         </div>
 
-        <div>
-            <label for="access_link" class="text-sm font-semibold block mb-1">Tautan Akses (Repository)</label>
-            <input id="access_link" name="access_link" type="url" value="{{ old('access_link', $collection->access_link) }}" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-            @error('access_link') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+        <div class="flex justify-end gap-2 border-t border-outline-variant/20 pt-5">
+            <a
+                href="{{ route('admin.collections.index') }}"
+                class="inline-flex h-11 items-center justify-center rounded-xl border border-outline-variant/50 px-4 text-sm font-semibold transition hover:bg-surface-container-low"
+            >
+                Batal
+            </a>
 
-        <div>
-            <label for="synopsis" class="text-sm font-semibold block mb-1">Sinopsis</label>
-            <textarea id="synopsis" name="synopsis" rows="4" class="w-full p-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">{{ old('synopsis', $collection->synopsis) }}</textarea>
-            @error('synopsis') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+            <button
+                type="submit"
+                class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary-container"
+            >
+                <span class="material-symbols-outlined text-[19px]" aria-hidden="true">
+                    save
+                </span>
 
-        @if ($collection->cover_path)
-            <img src="{{ $collection->cover_path }}" alt="Sampul saat ini" class="w-32 aspect-[3/4] object-cover rounded-lg">
-        @endif
-
-        <div>
-            <label for="cover" class="text-sm font-semibold block mb-1">Ganti Sampul Buku (opsional)</label>
-            <input id="cover" name="cover" type="file" accept="image/*" class="w-full p-3 border border-outline-variant rounded-lg">
-            @error('cover') <p class="text-error text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
-
-        <label class="flex items-center gap-2">
-            <input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $collection->is_featured)) class="w-5 h-5">
-            <span class="text-sm font-semibold">Tampilkan sebagai koleksi unggulan</span>
-        </label>
-
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="px-6 h-12 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all">Perbarui</button>
-            <a href="{{ route('admin.collections.index') }}" class="px-6 h-12 flex items-center border border-outline-variant rounded-lg font-semibold">Batal</a>
+                Perbarui Koleksi
+            </button>
         </div>
     </form>
 </x-layouts.admin>

@@ -12,10 +12,26 @@ class HeroSlide extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image_path', 'order'];
+    protected $fillable = [
+        'image_path',
+        'order',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'order' => 'integer',
+        'is_active' => 'boolean',
+    ];
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
 
     public function scopeOrdered(Builder $query): Builder
     {
-        return $query->orderBy('order');
+        return $query
+            ->orderBy('order')
+            ->orderBy('id');
     }
 }

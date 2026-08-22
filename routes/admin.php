@@ -51,6 +51,15 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         });
 
         Route::middleware('permission:hero-slides.manage')->group(function (): void {
+            Route::patch('/hero-slides/{heroSlide}/toggle-active', [HeroSlideController::class, 'toggleActive'])
+                ->name('hero-slides.toggle-active');
+
+            Route::post('/hero-slides/activate-top', [HeroSlideController::class, 'activateTop'])
+                ->name('hero-slides.activate-top');
+
+            Route::post('/hero-slides/deactivate-all', [HeroSlideController::class, 'deactivateAll'])
+                ->name('hero-slides.deactivate-all');
+
             Route::resource('hero-slides', HeroSlideController::class)->except(['show']);
         });
 
@@ -65,6 +74,12 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
             Route::get('/contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])
                 ->name('contact-messages.show');
+
+            Route::post('/contact-messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])
+                ->name('contact-messages.reply');
+
+            Route::patch('/contact-messages/{contactMessage}/status', [ContactMessageController::class, 'updateStatus'])
+                ->name('contact-messages.status.update');
 
             Route::patch('/contact-messages/{contactMessage}/unread', [ContactMessageController::class, 'unread'])
                 ->name('contact-messages.unread');
