@@ -1,2 +1,5 @@
-*
+# Abaikan file ZIP / backup
+*.zip
+
+# Izinkan file upload di storage public masuk Git
 !.gitignore
