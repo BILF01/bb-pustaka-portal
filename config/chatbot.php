@@ -39,9 +39,9 @@ return [
         'groq' => [
             'base_url' => env('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'),
             'api_key' => env('GROQ_API_KEY'),
-            'model' => env('GROQ_MODEL', 'qwen/qwen3.6-27b'),
+            'model' => env('GROQ_MODEL', 'openai/gpt-oss-20b'),
             'options' => [
-                'reasoning_effort' => 'none',
+                'reasoning_effort' => 'low',
                 'temperature' => 0.7,
                 'max_completion_tokens' => 400,
             ],

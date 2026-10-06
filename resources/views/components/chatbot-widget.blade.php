@@ -68,7 +68,7 @@
                     </span>
 
                     <div class="min-w-0 max-w-[81%]">
-                        <div x-html="message.html" class="px-4 py-3 text-[13px] leading-[1.65] break-words prose prose-sm max-w-none [&_p]:my-0 [&_p+p]:mt-2.5 [&_ul]:my-2 [&_ol]:my-2 [&_li]:my-1" :class="message.role === 'user' ? 'rounded-[18px] rounded-tr-[5px] bg-[#edf7f0] border border-primary/10 text-on-surface' : 'rounded-[18px] rounded-tl-[5px] bg-white border border-primary/10 text-on-surface shadow-[0_3px_12px_rgba(24,75,46,.045)]'"></div>
+                        <div x-html="message.html" class="px-4 py-3 text-[13px] leading-[1.65] break-words prose prose-sm max-w-none [&_p]:my-0 [&_p+p]:mt-2.5 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1" :class="message.role === 'user' ? 'rounded-[18px] rounded-tr-[5px] bg-[#edf7f0] border border-primary/10 text-on-surface' : 'rounded-[18px] rounded-tl-[5px] bg-white border border-primary/10 text-on-surface shadow-[0_3px_12px_rgba(24,75,46,.045)]'"></div>
                         <span class="block mt-1 px-1 text-[9px] text-on-surface-variant/55" x-text="message.time" :class="message.role === 'user' ? 'text-right' : ''"></span>
                     </div>
                 </div>
